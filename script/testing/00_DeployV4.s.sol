@@ -2,7 +2,7 @@
 pragma solidity ^0.8.26;
 
 import {Hooks} from "@uniswap/v4-core/src/libraries/Hooks.sol";
-import {HookMiner} from "@uniswap/v4-periphery/src/utils/HookMiner.sol";
+import {HookMiner} from "../../test/utils/HookMiner.sol";
 
 import {console2} from "forge-std/Script.sol";
 import {BaseScript} from "../base/BaseScript.sol";
@@ -31,7 +31,10 @@ contract DeployLocalV4 is BaseScript {
 
         console2.log("Deployed Permit2 at:", address(permit2));
         console2.log("Deployed V4PoolManager at:", address(poolManager));
-        console2.log("Deployed V4PositionManager at:", address(positionManager));
+        console2.log(
+            "Deployed V4PositionManager at:",
+            address(positionManager)
+        );
         console2.log("Deployed V4SwapRouter at:", address(swapRouter));
     }
 }
