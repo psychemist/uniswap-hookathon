@@ -77,7 +77,8 @@ contract PegSentinelHookTest is BaseTest {
         );
         bytes memory constructorArgs = abi.encode(
             poolManager,
-            authorizedReceiver
+            authorizedReceiver,
+            address(this)
         ); // Add all the necessary constructor arguments from the hook
         deployCodeTo(
             "PegSentinelHook.sol:PegSentinelHook",
