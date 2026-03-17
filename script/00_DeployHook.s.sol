@@ -21,7 +21,8 @@ contract DeployHookScript is BaseScript {
 
         bytes memory constructorArgs = abi.encode(
             poolManager,
-            address(uint160(uint256(keccak256("receiver"))))
+            address(uint160(uint256(keccak256("receiver")))),
+            msg.sender
         );
         (address hookAddress, bytes32 salt) = HookMiner.find(
             CREATE2_FACTORY,
@@ -34,7 +35,8 @@ contract DeployHookScript is BaseScript {
         vm.startBroadcast();
         PegSentinelHook counter = new PegSentinelHook{salt: salt}(
             poolManager,
-            address(uint160(uint256(keccak256("receiver"))))
+            address(uint160(uint256(keccak256("receiver")))),
+            msg.sender
         );
         vm.stopBroadcast();
 
