@@ -50,7 +50,7 @@ contract PegSentinelIntegrationTest is BaseTest {
     uint256 mainnetFork;
 
     function setUp() public {
-        // Optional fork setup (Phase 7). If RPC env vars are not set, tests run locally.
+        // Optional fork setup. If RPC env vars are not set, tests run locally.
         string memory unichainRpc = vm.envOr(
             "UNICHAIN_SEPOLIA_RPC",
             string("")
