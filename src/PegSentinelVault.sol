@@ -44,9 +44,6 @@ contract PegSentinelVault is ERC4626, IPegSentinelVault {
     // Underlying asset denominated in token0 units.
     function totalAssets() public view override returns (uint256) {
         // Assets = idle tokens in vault + lending adapter + estimated value of LP
-        // The prompt says "Use token0 of the pool as the reference asset denomination"
-        // For simplicity in this architectural demo, we track the amount0 delta added
-        // and accrued yield.
         uint256 lent = address(lendingAdapter) != address(0)
             ? lendingAdapter.totalDeposited(asset())
             : 0;

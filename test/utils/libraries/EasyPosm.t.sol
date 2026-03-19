@@ -8,10 +8,17 @@ import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 import {PoolKey} from "@uniswap/v4-core/src/types/PoolKey.sol";
 import {BalanceDelta} from "@uniswap/v4-core/src/types/BalanceDelta.sol";
 import {PoolIdLibrary} from "@uniswap/v4-core/src/types/PoolId.sol";
-import {CurrencyLibrary, Currency} from "@uniswap/v4-core/src/types/Currency.sol";
+import {
+    CurrencyLibrary,
+    Currency
+} from "@uniswap/v4-core/src/types/Currency.sol";
 import {StateLibrary} from "@uniswap/v4-core/src/libraries/StateLibrary.sol";
-import {LiquidityAmounts} from "@uniswap/v4-core/test/utils/LiquidityAmounts.sol";
-import {IPositionManager} from "@uniswap/v4-periphery/src/interfaces/IPositionManager.sol";
+import {
+    LiquidityAmounts
+} from "@uniswap/v4-core/test/utils/LiquidityAmounts.sol";
+import {
+    IPositionManager
+} from "@uniswap/v4-periphery/src/interfaces/IPositionManager.sol";
 import {Constants} from "@uniswap/v4-core/test/utils/Constants.sol";
 
 import {EasyPosm} from "./EasyPosm.sol";
@@ -39,7 +46,13 @@ contract EasyPosmTest is Test, BaseTest {
 
         // Create the pool
         key = PoolKey(currency0, currency1, 3000, 60, IHooks(address(0)));
-        nativeKey = PoolKey(Currency.wrap(address(0)), currency1, 3000, 60, IHooks(address(0)));
+        nativeKey = PoolKey(
+            Currency.wrap(address(0)),
+            currency1,
+            3000,
+            60,
+            IHooks(address(0))
+        );
 
         poolManager.initialize(key, Constants.SQRT_PRICE_1_1);
         poolManager.initialize(nativeKey, Constants.SQRT_PRICE_1_1);
@@ -53,12 +66,13 @@ contract EasyPosmTest is Test, BaseTest {
         uint256 liquidityToMint = 100e18;
         address recipient = address(this);
 
-        (uint256 amount0, uint256 amount1) = LiquidityAmounts.getAmountsForLiquidity(
-            Constants.SQRT_PRICE_1_1,
-            TickMath.getSqrtPriceAtTick(tickLower),
-            TickMath.getSqrtPriceAtTick(tickUpper),
-            uint128(liquidityToMint)
-        );
+        (uint256 amount0, uint256 amount1) = LiquidityAmounts
+            .getAmountsForLiquidity(
+                Constants.SQRT_PRICE_1_1,
+                TickMath.getSqrtPriceAtTick(tickLower),
+                TickMath.getSqrtPriceAtTick(tickUpper),
+                uint128(liquidityToMint)
+            );
 
         (, BalanceDelta delta) = positionManager.mint(
             key,
@@ -79,12 +93,13 @@ contract EasyPosmTest is Test, BaseTest {
         uint256 liquidityToMint = 100e18;
         address recipient = address(this);
 
-        (uint256 amount0, uint256 amount1) = LiquidityAmounts.getAmountsForLiquidity(
-            Constants.SQRT_PRICE_1_1,
-            TickMath.getSqrtPriceAtTick(tickLower),
-            TickMath.getSqrtPriceAtTick(tickUpper),
-            uint128(liquidityToMint)
-        );
+        (uint256 amount0, uint256 amount1) = LiquidityAmounts
+            .getAmountsForLiquidity(
+                Constants.SQRT_PRICE_1_1,
+                TickMath.getSqrtPriceAtTick(tickLower),
+                TickMath.getSqrtPriceAtTick(tickUpper),
+                uint128(liquidityToMint)
+            );
 
         vm.deal(address(this), amount0 + 1);
         (, BalanceDelta delta) = positionManager.mint(
@@ -103,7 +118,7 @@ contract EasyPosmTest is Test, BaseTest {
     }
 
     function test_increaseLiquidity() public {
-        (uint256 tokenId,) = positionManager.mint(
+        (uint256 tokenId, ) = positionManager.mint(
             key,
             tickLower,
             tickUpper,
@@ -117,15 +132,21 @@ contract EasyPosmTest is Test, BaseTest {
 
         uint256 liquidityToAdd = 1e18;
 
-        (uint256 amount0, uint256 amount1) = LiquidityAmounts.getAmountsForLiquidity(
-            Constants.SQRT_PRICE_1_1,
-            TickMath.getSqrtPriceAtTick(tickLower),
-            TickMath.getSqrtPriceAtTick(tickUpper),
-            uint128(liquidityToAdd)
-        );
+        (uint256 amount0, uint256 amount1) = LiquidityAmounts
+            .getAmountsForLiquidity(
+                Constants.SQRT_PRICE_1_1,
+                TickMath.getSqrtPriceAtTick(tickLower),
+                TickMath.getSqrtPriceAtTick(tickUpper),
+                uint128(liquidityToAdd)
+            );
 
         BalanceDelta delta = positionManager.increaseLiquidity(
-            tokenId, liquidityToAdd, type(uint256).max, type(uint256).max, block.timestamp + 1, Constants.ZERO_BYTES
+            tokenId,
+            liquidityToAdd,
+            type(uint256).max,
+            type(uint256).max,
+            block.timestamp + 1,
+            Constants.ZERO_BYTES
         );
         assertEq(delta.amount0(), -int128(uint128(amount0 + 1 wei)));
         assertEq(delta.amount1(), -int128(uint128(amount1 + 1 wei)));
@@ -135,12 +156,13 @@ contract EasyPosmTest is Test, BaseTest {
         uint256 liquidityToMint = 100e18;
         address recipient = address(this);
 
-        (uint256 amount0, uint256 amount1) = LiquidityAmounts.getAmountsForLiquidity(
-            Constants.SQRT_PRICE_1_1,
-            TickMath.getSqrtPriceAtTick(tickLower),
-            TickMath.getSqrtPriceAtTick(tickUpper),
-            uint128(liquidityToMint)
-        );
+        (uint256 amount0, uint256 amount1) = LiquidityAmounts
+            .getAmountsForLiquidity(
+                Constants.SQRT_PRICE_1_1,
+                TickMath.getSqrtPriceAtTick(tickLower),
+                TickMath.getSqrtPriceAtTick(tickUpper),
+                uint128(liquidityToMint)
+            );
 
         vm.deal(address(this), amount0 + 1);
         (uint256 tokenId, BalanceDelta delta) = positionManager.mint(
@@ -166,14 +188,19 @@ contract EasyPosmTest is Test, BaseTest {
 
         vm.deal(address(this), amount0 + 1);
         delta = positionManager.increaseLiquidity(
-            tokenId, liquidityToIncrease, amount0 + 1, amount1 + 1, block.timestamp + 1, Constants.ZERO_BYTES
+            tokenId,
+            liquidityToIncrease,
+            amount0 + 1,
+            amount1 + 1,
+            block.timestamp + 1,
+            Constants.ZERO_BYTES
         );
         assertEq(delta.amount0(), -int128(uint128(amount0 + 1 wei)));
         assertEq(delta.amount1(), -int128(uint128(amount1 + 1 wei)));
     }
 
     function test_decreaseLiquidity() public {
-        (uint256 tokenId,) = positionManager.mint(
+        (uint256 tokenId, ) = positionManager.mint(
             key,
             tickLower,
             tickUpper,
@@ -187,15 +214,22 @@ contract EasyPosmTest is Test, BaseTest {
 
         uint256 liquidityToRemove = 1e18;
 
-        (uint256 amount0, uint256 amount1) = LiquidityAmounts.getAmountsForLiquidity(
-            Constants.SQRT_PRICE_1_1,
-            TickMath.getSqrtPriceAtTick(tickLower),
-            TickMath.getSqrtPriceAtTick(tickUpper),
-            uint128(liquidityToRemove)
-        );
+        (uint256 amount0, uint256 amount1) = LiquidityAmounts
+            .getAmountsForLiquidity(
+                Constants.SQRT_PRICE_1_1,
+                TickMath.getSqrtPriceAtTick(tickLower),
+                TickMath.getSqrtPriceAtTick(tickUpper),
+                uint128(liquidityToRemove)
+            );
 
         BalanceDelta delta = positionManager.decreaseLiquidity(
-            tokenId, liquidityToRemove, 0, 0, address(this), block.timestamp + 1, Constants.ZERO_BYTES
+            tokenId,
+            liquidityToRemove,
+            0,
+            0,
+            address(this),
+            block.timestamp + 1,
+            Constants.ZERO_BYTES
         );
         assertEq(delta.amount0(), int128(uint128(amount0)));
         assertEq(delta.amount1(), int128(uint128(amount1)));
@@ -214,13 +248,19 @@ contract EasyPosmTest is Test, BaseTest {
             Constants.ZERO_BYTES
         );
 
-        BalanceDelta delta =
-            positionManager.burn(tokenId, 0, 0, address(this), block.timestamp + 1, Constants.ZERO_BYTES);
+        BalanceDelta delta = positionManager.burn(
+            tokenId,
+            0,
+            0,
+            address(this),
+            block.timestamp + 1,
+            Constants.ZERO_BYTES
+        );
         assertEq(delta.amount0(), -mintDelta.amount0() - 1 wei);
         assertEq(delta.amount1(), -mintDelta.amount1() - 1 wei);
     }
 
-    // This test requires a donateRouter, TODO
+    // This test requires a donateRouter
     // function test_collect() public {
     //     (uint256 tokenId,) = positionManager.mint(
     //         key,

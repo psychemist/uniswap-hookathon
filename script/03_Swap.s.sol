@@ -18,14 +18,14 @@ contract SwapScript is BaseScript {
 
         vm.startBroadcast();
 
-        // We'll approve both, just for testing.
+        // Approve both for testing.
         token1.approve(address(swapRouter), type(uint256).max);
         token0.approve(address(swapRouter), type(uint256).max);
 
         // Execute swap
         swapRouter.swapExactTokensForTokens({
             amountIn: 1e18,
-            amountOutMin: 0, // Very bad, but we want to allow for unlimited price impact
+            amountOutMin: 0, // Allow for unlimited price impact
             zeroForOne: true,
             poolKey: poolKey,
             hookData: hookData,

@@ -7,10 +7,14 @@ import {IERC20} from "forge-std/interfaces/IERC20.sol";
 import {IHooks} from "@uniswap/v4-core/src/interfaces/IHooks.sol";
 import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
 import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
-import {IPositionManager} from "@uniswap/v4-periphery/src/interfaces/IPositionManager.sol";
+import {
+    IPositionManager
+} from "@uniswap/v4-periphery/src/interfaces/IPositionManager.sol";
 import {IPermit2} from "permit2/src/interfaces/IPermit2.sol";
 
-import {IUniswapV4Router04} from "hookmate/interfaces/router/IUniswapV4Router04.sol";
+import {
+    IUniswapV4Router04
+} from "hookmate/interfaces/router/IUniswapV4Router04.sol";
 import {AddressConstants} from "hookmate/constants/AddressConstants.sol";
 
 import {Deployers} from "test/utils/Deployers.sol";
@@ -22,8 +26,10 @@ contract BaseScript is Script, Deployers {
     /////////////////////////////////////
     // --- Configure These ---
     /////////////////////////////////////
-    IERC20 internal constant token0 = IERC20(0x0165878A594ca255338adfa4d48449f69242Eb8F);
-    IERC20 internal constant token1 = IERC20(0xa513E6E4b8f2a923D98304ec87F64353C4D5C853);
+    IERC20 internal constant token0 =
+        IERC20(0x0165878A594ca255338adfa4d48449f69242Eb8F);
+    IERC20 internal constant token1 =
+        IERC20(0xa513E6E4b8f2a923D98304ec87F64353C4D5C853);
     IHooks constant hookContract = IHooks(address(0));
     /////////////////////////////////////
 
@@ -31,7 +37,6 @@ contract BaseScript is Script, Deployers {
     Currency immutable currency1;
 
     constructor() {
-        // Make sure artifacts are available, either deploy or configure.
         deployArtifacts();
 
         deployerAddress = getDeployer();
@@ -51,7 +56,17 @@ contract BaseScript is Script, Deployers {
 
     function _etch(address target, bytes memory bytecode) internal override {
         if (block.chainid == 31337) {
-            vm.rpc("anvil_setCode", string.concat('["', vm.toString(target), '",', '"', vm.toString(bytecode), '"]'));
+            vm.rpc(
+                "anvil_setCode",
+                string.concat(
+                    '["',
+                    vm.toString(target),
+                    '",',
+                    '"',
+                    vm.toString(bytecode),
+                    '"]'
+                )
+            );
         } else {
             revert("Unsupported etch on this network");
         }
@@ -61,9 +76,15 @@ contract BaseScript is Script, Deployers {
         require(address(token0) != address(token1));
 
         if (token0 < token1) {
-            return (Currency.wrap(address(token0)), Currency.wrap(address(token1)));
+            return (
+                Currency.wrap(address(token0)),
+                Currency.wrap(address(token1))
+            );
         } else {
-            return (Currency.wrap(address(token1)), Currency.wrap(address(token0)));
+            return (
+                Currency.wrap(address(token1)),
+                Currency.wrap(address(token0))
+            );
         }
     }
 

@@ -61,7 +61,6 @@ contract PegSentinelHook is BaseHook, Ownable {
     ) BaseHook(_poolManager) Ownable(_owner) {
         receiver = _receiver;
         // initialize all known stablecoins to confidence 100
-        // Currently initializing for Unichain Sepolia USDC + Mock DAI/USDT
         pegConfidence[0x31d0220469e10c4E71834a79b1f276d740d3768F] = 100; // USDC
         pegConfidence[0x6B175474E89094C44Da98b954EedeAC495271d0F] = 100; // Mock DAI
         pegConfidence[0xdAC17F958D2ee523a2206206994597C13D831ec7] = 100; // Mock USDT
@@ -133,8 +132,6 @@ contract PegSentinelHook is BaseHook, Ownable {
 
         uint24 fee = FeeComputation.selectFee(params.zeroForOne, c0, c1);
 
-        // Return 0 if we weren't instructed to override with a fee update flag?
-        // No! The DYNAMIC_FEE_FLAG is enforced via pool key initialization, and we OR the OVERRIDE flag to charge the fee.
         return (
             BaseHook.beforeSwap.selector,
             BeforeSwapDeltaLibrary.ZERO_DELTA,
@@ -152,12 +149,7 @@ contract PegSentinelHook is BaseHook, Ownable {
     ) internal override returns (bytes4, BalanceDelta) {
         if (vault != address(0)) {
             address lp = _resolveLp(sender, hookData);
-            IPegSentinelVault(vault).onLiquidityAdded(
-                lp,
-                key,
-                delta,
-                hookData
-            );
+            IPegSentinelVault(vault).onLiquidityAdded(lp, key, delta, hookData);
         }
         return (
             BaseHook.afterAddLiquidity.selector,
@@ -198,7 +190,11 @@ contract PegSentinelHook is BaseHook, Ownable {
         if (vault != address(0)) {
             uint8 c0 = pegConfidence[Currency.unwrap(key.currency0)];
             uint8 c1 = pegConfidence[Currency.unwrap(key.currency1)];
-            uint24 feeRate = FeeComputation.selectFee(params.zeroForOne, c0, c1);
+            uint24 feeRate = FeeComputation.selectFee(
+                params.zeroForOne,
+                c0,
+                c1
+            );
 
             int128 amountIn = params.zeroForOne
                 ? delta.amount0()

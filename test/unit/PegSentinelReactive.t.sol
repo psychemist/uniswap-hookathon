@@ -145,13 +145,6 @@ contract PegSentinelReactiveTest is Test {
         rsc.react(log);
         assertEq(rsc.confidence(unichainUSDC), 2);
 
-        // Next time will jump to 4. Diff from 0 (last callback value is technically 0 because
-        // the last successfully persisted value via callback is what the receiver holds, but wait...
-        // confidence mapping holds 2 right now.
-        // Wait, oldScore in _handleChainlinkUpdate is confidence[unichainTarget] which is 2.
-        // newScore = 2 + 2 = 4. diff(2,4) = 2. It will NEVER fire if it just creeps up by 2 manually!
-        // Ah, our unit test expects "confidence increases". Let's test that.
-
         log.block_number = 102;
         rsc.react(log);
         assertEq(rsc.confidence(unichainUSDC), 4);

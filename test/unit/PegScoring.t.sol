@@ -23,8 +23,6 @@ contract PegScoringTest is Test {
             100,
             PegScoring.PEG_TARGET
         );
-        // PEG_TARGET deviation is 0 (which is < DEVIATION_RECOVERY_UNITS)
-        // so it applies recovery delta (+2). But it clamps at 100.
         assertEq(newScore, 100);
     }
 

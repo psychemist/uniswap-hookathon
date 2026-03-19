@@ -44,7 +44,7 @@ contract FeeComputationTest is Test {
 
     function testFeeMonotonicallyIncreasingAsConfidenceDecreases() public pure {
         uint24 lastFee = FeeComputation.computeTokenInFee(100);
-        for (uint8 c = 99; c <= 100 /* will underflow if not careful */; c--) {
+        for (uint8 c = 99; c <= 100; c--) {
             uint24 fee = FeeComputation.computeTokenInFee(c);
             assertTrue(fee >= lastFee);
             lastFee = fee;

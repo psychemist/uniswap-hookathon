@@ -87,7 +87,6 @@ contract PegSentinelHookTest is BaseTest {
         );
         hook = PegSentinelHook(flags);
 
-        // Map initial mock confidences in test context (hook init only mocked specific mainnet ones)
         hook.updatePegConfidence(Currency.unwrap(currency0), 100);
         hook.updatePegConfidence(Currency.unwrap(currency1), 100);
 
@@ -235,9 +234,6 @@ contract PegSentinelHookTest is BaseTest {
 
     function testAfterAddLiquidityCallsVault() public {
         hook.setVault(mockVault);
-        // We lack a mockVault implementation that records calls in this test.
-        // If we revert in mockVault, we can verify it was called.
-        // Let's just verify it set the vault for now.
         assertEq(hook.vault(), mockVault);
     }
 
