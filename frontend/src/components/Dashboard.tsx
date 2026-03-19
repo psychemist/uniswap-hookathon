@@ -144,22 +144,39 @@ export function Dashboard(props: {
             </div>
           )}
 
-          {confidences.data?.map((t) => (
-            <div key={t.address} className="rounded-xl border border-white/10 bg-black/20 p-4">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-baseline gap-2">
-                  <div className="text-sm font-semibold text-white">{t.label}</div>
-                  <div className="font-mono text-xs text-white/50">{shortAddr(t.address)}</div>
+          {confidences.data?.map((t) => {
+            const tone = confidenceTone(t.confidence);
+            const numColor =
+              tone === "good" ? "text-emerald-300" :
+                tone === "warn" ? "text-amber-300" :
+                  tone === "bad" ? "text-rose-300" :
+                    "text-white/60";
+
+            return (
+              <div key={t.address} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-baseline gap-2">
+                    <div className="text-sm font-semibold text-white">{t.label}</div>
+                    <div className="font-mono text-xs text-white/50">{shortAddr(t.address)}</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`font-mono text-2xl font-bold tabular-nums ${numColor}`}
+                      style={{ transition: "color 500ms ease" }}
+                    >
+                      {t.confidence}
+                    </span>
+                    <Pill tone={tone}>
+                      {tone === "good" ? "PEGGED" : tone === "warn" ? "CAUTION" : "DEPEG"}
+                    </Pill>
+                  </div>
                 </div>
-                <Pill tone={confidenceTone(t.confidence)}>
-                  confidence: {t.confidence}
-                </Pill>
+                <div className="mt-3">
+                  <ProgressBar value={t.confidence} />
+                </div>
               </div>
-              <div className="mt-3">
-                <ProgressBar value={t.confidence} />
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Card>
 

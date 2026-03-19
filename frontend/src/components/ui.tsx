@@ -58,11 +58,25 @@ export function Pill(props: { children: React.ReactNode; tone?: "good" | "warn" 
 export function ProgressBar(props: { value: number; max?: number }) {
   const max = props.max ?? 100;
   const pct = Math.max(0, Math.min(1, props.value / max));
+
+  // Color shifts based on value
+  const barColor =
+    pct >= 0.9
+      ? "from-emerald-400 via-emerald-300 to-cyan-300"
+      : pct >= 0.7
+        ? "from-amber-400 via-yellow-300 to-emerald-300"
+        : pct >= 0.5
+          ? "from-orange-400 via-amber-400 to-yellow-300"
+          : "from-rose-500 via-red-400 to-orange-400";
+
   return (
-    <div className="h-2 w-full rounded-full bg-white/10">
+    <div className="h-2.5 w-full rounded-full bg-white/10">
       <div
-        className="h-2 rounded-full bg-gradient-to-r from-indigo-400 via-cyan-300 to-emerald-300"
-        style={{ width: `${pct * 100}%` }}
+        className={`h-2.5 rounded-full bg-gradient-to-r ${barColor}`}
+        style={{
+          width: `${pct * 100}%`,
+          transition: "width 700ms cubic-bezier(0.4, 0, 0.2, 1), background-color 700ms ease",
+        }}
       />
     </div>
   );

@@ -64,14 +64,6 @@ export default function App() {
           </main>
 
           <footer className="mt-10 border-t border-white/10 pt-6 text-xs text-white/50">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span>
-                Configure via <code className="rounded bg-white/5 px-1.5 py-0.5">frontend/.env</code>
-              </span>
-              <span className="text-white/40">
-                UI is read-only by design for demo stability.
-              </span>
-            </div>
           </footer>
         </div>
       </div>
