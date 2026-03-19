@@ -17,4 +17,4 @@ depth = 100
 [rpc_endpoints]
 unichain_sepolia = "${UNICHAIN_SEPOLIA_RPC}"
 mainnet = "${MAINNET_RPC}"
-reactive_kopli = "${REACTIVE_KOPLI_RPC}"
+reactive_lasna = "${REACTIVE_LASNA_RPC}"

@@ -8,7 +8,7 @@ import {Hooks} from "@uniswap/v4-core/src/libraries/Hooks.sol";
 import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 
 import {HookMiner} from "../test/utils/HookMiner.sol";
-import {Deployers} from "test/utils/Deployers.sol";
+import {Deployers} from "../test/utils/Deployers.sol";
 
 import {PegSentinelHook} from "../src/PegSentinelHook.sol";
 import {PegSentinelReceiver} from "../src/PegSentinelReceiver.sol";

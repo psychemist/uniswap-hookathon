@@ -6,10 +6,10 @@ import {Script, console2} from "forge-std/Script.sol";
 import {PegSentinelReactive} from "../src/PegSentinelReactive.sol";
 
 /**
- * Reactive Kopli deployment script for the RSC.
+ * Reactive Lasna deployment script for the RSC.
  *
  * Env vars:
- * - DEPLOYER_PRIVATE_KEY: private key used for broadcasting on Reactive Kopli
+ * - DEPLOYER_PRIVATE_KEY: private key used for broadcasting on Reactive Lasna
  * - UNICHAIN_RECEIVER: PegSentinelReceiver address on Unichain Sepolia
  * - UNICHAIN_USDC: bridged USDC token address on Unichain Sepolia
  * - UNICHAIN_DAI: bridged DAI token address on Unichain Sepolia
